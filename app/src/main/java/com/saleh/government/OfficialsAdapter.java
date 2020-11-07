@@ -1,5 +1,7 @@
 package com.saleh.government;
 
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -20,16 +22,23 @@ public class OfficialsAdapter  extends RecyclerView.Adapter<OfficialsViewHolder>
     @NonNull
     @Override
     public OfficialsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_layout,parent,false);
+        //item.setOnLongClickListener(mainActivity);
+        item.setOnClickListener(mainActivity);
+        return new OfficialsViewHolder(item);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OfficialsViewHolder holder, int position) {
+        Officals officals = officalsList.get(position);
+        holder.nameText.setText(officals.getName());
+        holder.posText.setText(officals.getPosition());
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return officalsList.size();
     }
 }
