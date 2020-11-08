@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int index = recyclerView.getChildLayoutPosition(v);
         Toast.makeText(this, "Clicked on "+officalsList.get(index).getName(), Toast.LENGTH_SHORT).show();
+        openOfficialView(officalsList.get(index));
     }
 
     @Override
@@ -96,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+    }
+
+    private void openOfficialView(Officals off){
+        Intent intent = new Intent(this,OfficialActivity.class);
+        intent.putExtra("off",off);
+        startActivity(intent);
     }
 
     private void openInfo() {

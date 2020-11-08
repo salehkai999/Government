@@ -31,7 +31,7 @@ public class OfficialsAdapter  extends RecyclerView.Adapter<OfficialsViewHolder>
     @Override
     public void onBindViewHolder(@NonNull OfficialsViewHolder holder, int position) {
         Officals officals = officalsList.get(position);
-        holder.nameText.setText(officals.getName());
+        holder.nameText.setText(officals.getName()+" ("+officals.getParty()+")");
         holder.posText.setText(officals.getPosition());
 
 
