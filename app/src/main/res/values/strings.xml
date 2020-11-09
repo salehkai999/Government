@@ -3,4 +3,6 @@
     <string name="know_your_government">Know Your Government</string>
     <string name="powered_by">Powered by</string>
     <string name="google_civic_link">https://developers.google.com/civic-information/</string>
+    <string name="democrats">https://democrats.org/</string>
+    <string name="republican">https://www.gop.com/</string>
 </resources>
