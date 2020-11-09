@@ -26,6 +26,7 @@ public class OfficialDownloader implements Runnable{
     private static  ArrayList<String> officialsList = new ArrayList<>();
     private static ArrayList<Officals> officals_list;
     private static  HashMap<String,String> officalsData;
+    private static String location = "";
 
     public OfficialDownloader(MainActivity mainActivity, String address) {
         this.mainActivity = mainActivity;
@@ -70,14 +71,15 @@ public class OfficialDownloader implements Runnable{
 
         try {
             JSONObject jsonObject = new JSONObject(data);
-            JSONObject jsonObject1 = jsonObject.getJSONObject("normalizedInput");
-            JSONArray jsonArray = jsonObject.getJSONArray("offices");
-            JSONArray jsonArray1 = jsonObject.getJSONArray("officials");
-            Log.d(TAG, "processData: ADDRESS"+jsonObject1.toString());
-            Log.d(TAG, "processData: OFFICES"+jsonArray.toString());
-            Log.d(TAG, "processData: OFFICALS"+jsonArray1.toString());
-            for(int i=0;i<jsonArray.length();i++) {
-                JSONObject obj = jsonArray.getJSONObject(i);
+            JSONObject jsonObjectAdd = jsonObject.getJSONObject("normalizedInput");
+            location = jsonObjectAdd.getString("city")+", "+jsonObjectAdd.getString("state")+" "+jsonObjectAdd.getString("zip");
+            JSONArray jsonArrayOffices = jsonObject.getJSONArray("offices");
+            JSONArray jsonArrayOfficials = jsonObject.getJSONArray("officials");
+            Log.d(TAG, "processData: ADDRESS"+jsonObjectAdd.toString());
+            Log.d(TAG, "processData: OFFICES"+jsonArrayOffices.toString());
+            Log.d(TAG, "processData: OFFICALS"+jsonArrayOfficials.toString());
+            for(int i=0;i<jsonArrayOffices.length();i++) {
+                JSONObject obj = jsonArrayOffices.getJSONObject(i);
                 JSONArray jsonArray2 = obj.getJSONArray("officialIndices");
                 for(int j=0;j<jsonArray2.length();j++)
                     officialsList.add(obj.getString("name"));
@@ -85,9 +87,9 @@ public class OfficialDownloader implements Runnable{
                 Log.d(TAG, "processData: "+obj.getString("name"));
             }
             Log.d(TAG, "processData: "+officialsList.size());
-            for(int i=0;i<jsonArray1.length();i++) {
+            for(int i=0;i<jsonArrayOfficials.length();i++) {
                 Officals official = new Officals();
-                JSONObject obj = jsonArray1.getJSONObject(i);
+                JSONObject obj = jsonArrayOfficials.getJSONObject(i);
                 official.setName(obj.getString("name"));
                 official.setParty(obj.getString("party"));
                 official.setPosition(officialsList.get(i));
@@ -96,10 +98,62 @@ public class OfficialDownloader implements Runnable{
                 }
                 catch (Exception e)
                 {
+                    Log.d(TAG, "processData: "+e);
                     official.setPhotoUrl("none");
                 }
+
+                try {
+                    JSONArray officialAdd = obj.getJSONArray("address");
+                        official.setAddress(officialAdd.getJSONObject(0).getString("line1") + " "
+                                + officialAdd.getJSONObject(0).getString("city") + " "
+                                + officialAdd.getJSONObject(0).getString("state") + " " + officialAdd.getJSONObject(0).getString("zip"));
+
+                }
+                catch (Exception e){
+                  // e.printStackTrace();
+                    Log.d(TAG, "processData: "+e);
+                    official.setAddress("N/A");
+                }
+
+                try{
+                    //obj.getString("urls")
+                    JSONArray urlsData = obj.getJSONArray("urls");
+                    for(int j=0;j<urlsData.length();j++)
+                        official.getUrls().add(urlsData.get(j).toString());
+
+                    Log.d(TAG, "processData: "+official.getUrls().toString());
+                }
+                catch (Exception e){
+                    Log.d(TAG, "processData: "+e);
+                }
+
+                try{
+                    JSONArray channelsData = obj.getJSONArray("channels");
+                    Log.d(TAG, "processData: "+channelsData.get(0).toString());
+                    for(int x=0;x<channelsData.length();x++)
+                    {
+                        JSONObject channelObj = channelsData.getJSONObject(x);
+                        official.getChannels().put(channelObj.getString("type"),channelObj.getString("id"));
+                        //Log.d(TAG, "processData: "+channelObj.toString());
+                    }
+                }
+                catch (Exception e) {
+                    Log.d(TAG, "processData: " + e);
+                }
+
+                try{
+                    JSONArray phones = obj.getJSONArray("phones");
+                    for(int z=0;z<phones.length();z++)
+                        official.getPhones().add(phones.get(z).toString());
+                   // Log.d(TAG, "processData: "+official.getPhones().toString());
+                }
+                catch (Exception e){
+                    Log.d(TAG, "processData: " + e);
+                }
+
                 officals_list.add(official);
-                Log.d(TAG, "processData: "+official.getName()+" "+official.getParty()+" "+official.getPosition()+" "+official.getPhotoUrl());//+" "+obj.getJSONArray("officialIndices").toString());
+                Log.d(TAG, "processData: "+official.getName()+" "+official.getParty()+" "+official.getPosition()+" "+official.getPhotoUrl()+", ADD "+official.getAddress()
+                        +" URL: "+official.getUrls()+" \nSocial:"+official.getChannels().toString()+" Phone: "+official.getPhones().toString());//+" "+obj.getJSONArray("officialIndices").toString());
             }
         }
         catch(Exception e){
@@ -111,6 +165,7 @@ public class OfficialDownloader implements Runnable{
             @Override
             public void run() {
                 mainActivity.addList(officals_list);
+                mainActivity.setLoc(location);
             }
         });
 

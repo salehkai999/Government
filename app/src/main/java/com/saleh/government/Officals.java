@@ -13,6 +13,7 @@ public class Officals implements Comparable<Officals>, Serializable {
     private String photoUrl="";
     private final HashMap<String,String> channels = new HashMap<>();
     private final ArrayList<String> phones = new ArrayList<>();
+    private final ArrayList<String> urls = new ArrayList<>();
 
     public Officals() {
     }
@@ -69,6 +70,10 @@ public class Officals implements Comparable<Officals>, Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public ArrayList<String> getUrls() {
+        return urls;
     }
 
     @Override

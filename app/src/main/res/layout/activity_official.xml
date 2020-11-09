@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/offLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OfficialActivity">
@@ -20,7 +21,7 @@
         android:id="@+id/posText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,14 +39,14 @@
 
     <ImageView
         android:id="@+id/offImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="216dp"
+        android:layout_height="134dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameView"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/missing" />
 
     <ImageView
         android:id="@+id/partyImage"
@@ -55,5 +56,100 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/offImage"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        app:srcCompat="@drawable/dem_logo" />
+
+    <TextView
+        android:id="@+id/addText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="Address:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partyImage" />
+
+    <TextView
+        android:id="@+id/addressData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="data"
+        android:textAlignment="viewStart"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addText"
+        app:layout_constraintStart_toEndOf="@+id/addText" />
+
+    <TextView
+        android:id="@+id/partyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="party"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/nameView"
+        app:layout_constraintTop_toBottomOf="@+id/nameView" />
+
+    <TextView
+        android:id="@+id/phoneText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Phones"
+        app:layout_constraintEnd_toEndOf="@+id/addText"
+        app:layout_constraintTop_toBottomOf="@+id/addressData" />
+
+    <TextView
+        android:id="@+id/phoneData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="phoneData"
+        app:layout_constraintStart_toStartOf="@+id/addressData"
+        app:layout_constraintTop_toBottomOf="@+id/addressData" />
+
+    <ImageView
+        android:id="@+id/fbImg"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/websiteText"
+        app:layout_constraintTop_toBottomOf="@+id/websiteData"
+        app:srcCompat="@drawable/facebook" />
+
+    <ImageView
+        android:id="@+id/twtImg"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toEndOf="@+id/fbImg"
+        app:layout_constraintTop_toBottomOf="@+id/websiteData"
+        app:srcCompat="@drawable/twitter" />
+
+    <ImageView
+        android:id="@+id/ytImg"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toEndOf="@+id/twtImg"
+        app:layout_constraintTop_toBottomOf="@+id/websiteData"
+        app:srcCompat="@drawable/youtube" />
+
+    <TextView
+        android:id="@+id/websiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Website"
+        app:layout_constraintStart_toStartOf="@+id/phoneText"
+        app:layout_constraintTop_toBottomOf="@+id/phoneData" />
+
+    <TextView
+        android:id="@+id/websiteData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="webData"
+        app:layout_constraintStart_toStartOf="@+id/phoneData"
+        app:layout_constraintTop_toBottomOf="@+id/phoneData" />
 </androidx.constraintlayout.widget.ConstraintLayout>
