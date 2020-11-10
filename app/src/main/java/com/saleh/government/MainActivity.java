@@ -19,6 +19,8 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 locattionData();
                 return;
             }
+            else
+                noLocationDialog();
         }
     }
 
@@ -134,16 +138,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (provider != null) {
             currentLocation = locationManager.getLastKnownLocation(provider);
         }
+
         if(currentLocation != null){
             Geocoder geocoder = new Geocoder(this);
             try {
                 List<Address> addressList = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 2);
                 locText.setText(addressList.get(0).getAddressLine(0));
-                new Thread(new OfficialDownloader(this,addressList.get(0).getAddressLine(0))).start();
+                if(isConnected())
+                    new Thread(new OfficialDownloader(this,addressList.get(0).getAddressLine(0))).start();
+                else
+                    noNetworkDialog();
             }
-            catch (Exception e){}
+            catch (Exception e){
+                noLocationDialog();
+            }
         }
+        else
+            noLocationDialog();
     }
+
+
 
     private void openSearchDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,8 +169,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String text = addressText.getText().toString();
-                new Thread(new OfficialDownloader(MainActivity.this,text)).start();
-                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                if(isConnected()) {
+                    new Thread(new OfficialDownloader(MainActivity.this, text)).start();
+                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+                }
+                else
+                    noNetworkDialog();
             }
         });
 
@@ -193,4 +211,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         locText.setText(location);
     }
+
+    private void noNetworkDialog() {
+        locText.setText("No Data for Location");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Network");
+        builder.setMessage("Not Connected to the Internet");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            Toast.makeText(this, "Cannot access ConnectivityManager", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo != null && netInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void noLocationDialog() {
+
+        locText.setText("No Data for Location");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Couldn't Determine Location");
+        builder.setMessage("Couldn't Locate");
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
 }

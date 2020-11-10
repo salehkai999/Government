@@ -112,7 +112,7 @@ public class OfficialDownloader implements Runnable{
                 catch (Exception e){
                   // e.printStackTrace();
                     Log.d(TAG, "processData: "+e);
-                    official.setAddress("N/A");
+                    official.setAddress(null);
                 }
 
                 try{
