@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 public class PictureActivity extends AppCompatActivity {
 
+    private TextView currentLoc;
     private TextView posText;
     private TextView nameText;
     private ImageView offImg;
@@ -25,12 +26,17 @@ public class PictureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture);
+        currentLoc = findViewById(R.id.picLoc);
         posText = findViewById(R.id.picPosText);
         nameText = findViewById(R.id.picNameText);
         offImg = findViewById(R.id.picOffImg);
         partyImg = findViewById(R.id.picParty);
 
         Intent intent = getIntent();
+        if(intent.hasExtra("loc")){
+            currentLoc.setText(intent.getStringExtra("loc"));
+        }
+
         if(intent.hasExtra("off")){
             off = (Officals) intent.getSerializableExtra("off");
             posText.setText(off.getPosition());

@@ -5,4 +5,6 @@
     <string name="google_civic_link">https://developers.google.com/civic-information/</string>
     <string name="democrats">https://democrats.org/</string>
     <string name="republican">https://www.gop.com/</string>
+    <string name="copy_right">© 2020, Saleh Qaseer</string>
+    <string name="version_1_0">Version 1.0</string>
 </resources>

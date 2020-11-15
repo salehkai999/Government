@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         criteria.setBearingRequired(false);
         criteria.setSpeedRequired(false);
 
+        if(!isConnected())
+            noNetworkDialog();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -188,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openOfficialView(Officals off){
         Intent intent = new Intent(this,OfficialActivity.class);
         intent.putExtra("off",off);
+        intent.putExtra("loc",locText.getText().toString().trim());
         startActivity(intent);
     }
 

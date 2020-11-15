@@ -31,6 +31,8 @@ public class OfficialActivity extends AppCompatActivity {
     private TextView addressData;
     private TextView phoneView;
     private TextView phoneData;
+    private TextView emailView;
+    private TextView emailText;
     private TextView websiteView;
     private TextView websiteData;
     private ImageView fbImg;
@@ -42,23 +44,12 @@ public class OfficialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_official);
-        locationText = findViewById(R.id.locationTextOff);
-        posText = findViewById(R.id.posText);
-        nameText = findViewById(R.id.nameView);
-        partyText = findViewById(R.id.partyText);
-        offImage = findViewById(R.id.offImage);
-        partyImage = findViewById(R.id.partyImage);
-        addressView = findViewById(R.id.addText);
-        addressData = findViewById(R.id.addressData);
-        phoneView = findViewById(R.id.phoneText);
-        phoneData = findViewById(R.id.phoneData);
-        websiteView = findViewById(R.id.websiteText);
-        websiteData = findViewById(R.id.websiteData);
-        fbImg = findViewById(R.id.fbImg);
-        ytImg = findViewById(R.id.ytImg);
-        twtImg = findViewById(R.id.twtImg);
+        setUpViews();
 
         Intent intent = getIntent();
+        if(intent.hasExtra("loc")) {
+            locationText.setText(intent.getStringExtra("loc"));
+        }
         if(intent.hasExtra("off")) {
             off = (Officals) intent.getSerializableExtra("off");
             if(off != null){
@@ -90,6 +81,16 @@ public class OfficialActivity extends AppCompatActivity {
                         partyImage.setVisibility(View.INVISIBLE);
                         findViewById(R.id.offLayout).setBackgroundColor(getResources().getColor(R.color.black));
                 }
+
+                if(off.getEmail() != null){
+                    emailText.setText(off.getEmail());
+                    Linkify.addLinks(emailText,Linkify.ALL);
+                }
+                else {
+                    emailText.setVisibility(View.INVISIBLE);
+                    emailView.setVisibility(View.INVISIBLE);
+                }
+
                 if(off.getAddress() != null) {
                     addressData.setText(off.getAddress());
                     Linkify.addLinks(addressData,Linkify.ALL);
@@ -130,6 +131,26 @@ public class OfficialActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void setUpViews() {
+        locationText = findViewById(R.id.locationTextOff);
+        posText = findViewById(R.id.posText);
+        nameText = findViewById(R.id.nameView);
+        partyText = findViewById(R.id.partyText);
+        offImage = findViewById(R.id.offImage);
+        partyImage = findViewById(R.id.partyImage);
+        addressView = findViewById(R.id.addText);
+        addressData = findViewById(R.id.addressData);
+        phoneView = findViewById(R.id.phoneText);
+        phoneData = findViewById(R.id.phoneData);
+        emailView = findViewById(R.id.emailView);
+        emailText = findViewById(R.id.emailData);
+        websiteView = findViewById(R.id.websiteText);
+        websiteData = findViewById(R.id.websiteData);
+        fbImg = findViewById(R.id.fbImg);
+        ytImg = findViewById(R.id.ytImg);
+        twtImg = findViewById(R.id.twtImg);
     }
 
     private void openDemWebSite() {
@@ -272,6 +293,7 @@ public class OfficialActivity extends AppCompatActivity {
     private void openPictureActivity() {
         Intent intent = new Intent(this,PictureActivity.class);
         intent.putExtra("off",off);
+        intent.putExtra("loc",locationText.getText().toString().trim());
         startActivity(intent);
     }
 }

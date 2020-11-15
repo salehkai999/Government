@@ -104,9 +104,9 @@ public class OfficialDownloader implements Runnable{
 
                 try {
                     JSONArray officialAdd = obj.getJSONArray("address");
-                        official.setAddress(officialAdd.getJSONObject(0).getString("line1") + " "
-                                + officialAdd.getJSONObject(0).getString("city") + " "
-                                + officialAdd.getJSONObject(0).getString("state") + " " + officialAdd.getJSONObject(0).getString("zip"));
+                        official.setAddress(officialAdd.getJSONObject(0).getString("line1") + "\n"
+                                + officialAdd.getJSONObject(0).getString("city") + "\n"
+                                + officialAdd.getJSONObject(0).getString("state") + "\n" + officialAdd.getJSONObject(0).getString("zip"));
 
                 }
                 catch (Exception e){
@@ -118,7 +118,7 @@ public class OfficialDownloader implements Runnable{
                 try{
                     //obj.getString("urls")
                     JSONArray urlsData = obj.getJSONArray("urls");
-                    for(int j=0;j<urlsData.length();j++)
+                    for(int j=0;j<1;j++)
                         official.getUrls().add(urlsData.get(j).toString());
 
                     Log.d(TAG, "processData: "+official.getUrls().toString());
@@ -142,8 +142,19 @@ public class OfficialDownloader implements Runnable{
                 }
 
                 try{
+                    JSONArray emailsData = obj.getJSONArray("emails");
+                    Log.d(TAG, "processData: "+emailsData.get(0));
+                    official.setEmail(emailsData.get(0).toString());
+                    Log.d(TAG, "processData: email: "+official.getEmail());
+                }
+                catch(Exception e){
+                    Log.d(TAG, "processData: "+e);
+                    official.setEmail(null);
+                }
+
+                try{
                     JSONArray phones = obj.getJSONArray("phones");
-                    for(int z=0;z<phones.length();z++)
+                    for(int z=0;z<1;z++)
                         official.getPhones().add(phones.get(z).toString());
                    // Log.d(TAG, "processData: "+official.getPhones().toString());
                 }

@@ -11,6 +11,7 @@ public class Officals implements Comparable<Officals>, Serializable {
     private String address;
     private String party;
     private String photoUrl="";
+    private String email;
     private final HashMap<String,String> channels = new HashMap<>();
     private final ArrayList<String> phones = new ArrayList<>();
     private final ArrayList<String> urls = new ArrayList<>();
@@ -74,6 +75,14 @@ public class Officals implements Comparable<Officals>, Serializable {
 
     public ArrayList<String> getUrls() {
         return urls;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
