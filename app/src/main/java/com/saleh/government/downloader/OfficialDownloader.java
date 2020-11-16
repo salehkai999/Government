@@ -104,9 +104,28 @@ public class OfficialDownloader implements Runnable{
 
                 try {
                     JSONArray officialAdd = obj.getJSONArray("address");
+                    if(officialAdd.getJSONObject(0).has("line2")){
+                        if(officialAdd.getJSONObject(0).has("line3")) {
+                            official.setAddress(officialAdd.getJSONObject(0).getString("line1") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("line2") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("line3")+"\n"
+                                    + officialAdd.getJSONObject(0).getString("city") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("state") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("zip"));
+                        }
+                        else {
+                            official.setAddress(officialAdd.getJSONObject(0).getString("line1") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("line2") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("city") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("state") + "\n"
+                                    + officialAdd.getJSONObject(0).getString("zip"));
+                        }
+                    }
+                    else {
                         official.setAddress(officialAdd.getJSONObject(0).getString("line1") + "\n"
                                 + officialAdd.getJSONObject(0).getString("city") + "\n"
                                 + officialAdd.getJSONObject(0).getString("state") + "\n" + officialAdd.getJSONObject(0).getString("zip"));
+                    }
 
                 }
                 catch (Exception e){
